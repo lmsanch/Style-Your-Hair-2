@@ -64,10 +64,11 @@ class Alignment(nn.Module):
 
         if self.opts.kp_loss:
             # self.setup_align_loss_builder(no_face=False)
+            # .2D y .3D ya no se usa en facealignment. User TWO_D y THREE_D
             if self.opts.kp_type =='2D':
-                self.kp_extractor = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False, device=opts.device)
+                self.kp_extractor = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D, flip_input=False, device=opts.device)
             else:
-                self.kp_extractor = face_alignment.FaceAlignment(face_alignment.LandmarksType._3D, flip_input=False, device=opts.device)
+                self.kp_extractor = face_alignment.FaceAlignment(face_alignment.LandmarksType.THREE_D, flip_input=False, device=opts.device)
             for param in self.kp_extractor.face_alignment_net.parameters():
                 param.requires_grad = False
             self.l2 = torch.nn.MSELoss()
@@ -184,7 +185,7 @@ class Alignment(nn.Module):
                 save_vis_mask(img_path1, img_path2, new_target_mean_seg.cpu(), self.opts.save_dir,count='1_warped_target+source_seg')
             target_mask = new_target_mean_seg.unsqueeze(0).long().to(self.opts.device)
 
-        #####################  Save Visualization of Target Segmentation Mask
+        #####################  Guardar visulisacion de Target Segmentation Mask
         if self.opts.save_all:
             save_vis_mask(img_path1, img_path2, target_mask.squeeze().cpu(),self.opts.save_dir, count='2_final_target_seg')
 

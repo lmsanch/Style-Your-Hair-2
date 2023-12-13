@@ -1,0 +1,9 @@
+*.jpg
+*.png
+/ffhq_image
+*.pth
+*.npz
+*.npy
+*.pyc
+/models/stylegan2/op/__pycache__/
+*.pt
